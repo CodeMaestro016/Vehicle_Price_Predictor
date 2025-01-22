@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Predictor</title>
+    <script>
+        function updateMaxPowerValue(value) {
+            document.getElementById('max-power-value').textContent = value;
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background: linear-gradient(to bottom right, #eaf0f7, #97b0e6);
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgb(225, 230, 237);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin: 0 0 20px;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-size: 22px;
+        }
+
+        .form-container .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-grid .form-group {
+            flex: 1 1 calc(50% - 20px);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #0056b3, #030a5c);
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer h3 {
+            margin: 10px 0;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Car Price Predictor</h1>
+    </div>
+    <div class="form-container">
+        <h2>Enter Your Car Details</h2>
+        <div class="result">
+            {% if pred %}
+
+            <p>The Estimated Price For <strong>{{ car_name }}</strong> is: <strong>LKR {{ pred }}</strong></p>
+            {% endif %}
+        </div>
+        <form action="/Form.html" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="car-name">Car Name</label>
+                    <select id="car-name" name="car-name" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="Chevrolet">Chevrolet</option>
+                        <option value="Ford">Ford</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Hyundai">Hyundai</option>
+                        <option value="Mahindra">Mahindra</option>
+                        <option value="Maruti">Maruti</option>
+                        <option value="Renault">Renault</option>
+                        <option value="Tata">Tata</option>
+                        <option value="Toyota">Toyota</option>
+                        <option value="Volkswagen">Volkswagen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" name="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="km-driven">Km Driven</label>
+                    <input type="number" id="km-driven" name="km-driven" required>
+                </div>
+                <div class="form-group">
+                    <label for="fuel-type">Fuel Type</label>
+                    <select id="fuel-type" name="fuel-type" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Petrol">Petrol</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="seller-type">Seller Type</label>
+                    <select id="seller-type" name="seller-type" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Dealer">Dealer</option>
+                        <option value="Trustmark Dealer">Trustmark Dealer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transmission">Transmission</label>
+                    <select id="transmission" name="transmission" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automatic">Automatic</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="owner">Owner</label>
+                    <select id="owner" name="owner" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="First Owner">First Owner</option>
+                        <option value="Second Owner">Second Owner</option>
+                        <option value="Third Owner">Third Owner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="seats">Seats</label>
+                    <select id="seats" name="seats" required>
+                        <option value="" selected hidden>Select</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="max-power">Max Power (HP)</label>
+                    <input type="range" id="max-power" name="max-power" min="1" max="200" step="1"
+                        oninput="updateMaxPowerValue(this.value)">
+                    <p>Selected Max Power: <span id="max-power-value">100</span> HP</p>
+                </div>
+                <div class="form-group">
+                    <label for="mileage">Mileage (km/l)</label>
+                    <input type="text" id="mileage" name="mileage" required>
+                </div>
+                <div class="form-group">
+                    <label for="engine">Engine (CC)</label>
+                    <input type="text" id="engine" name="engine" required>
+                </div>
+            </div>
+            <button type="submit">Predict Price</button>
+        </form>
+       
+    </div>
+    <div class="footer">
+        <h3>Contact Us</h3>
+        <p>Name: Lanka Auto Sales</p>
+        <p>Email: <a href="autolankasl@gmail.com">autolankasl@gmail.com</a></p>
+        <p>Phone: +94 77 456 7890</p>
+    </div>
+</body>
+
+</html>
